@@ -263,6 +263,26 @@ module anemone::role_manager {
         assert!(found, ERR_SKILL_NOT_FOUND);
     }
 
+    /// Update the skills array with a new set of skills
+    /// @param role - The role object to update
+    /// @param bot_nft - The bot NFT for ownership verification
+    /// @param new_skills - Vector of skill IDs to set
+    public entry fun update_skills(
+        role: &mut Role,
+        bot_nft: &BotNFT,
+        new_skills: vector<ID>,
+    ) {
+        // Verify ownership
+        let bot_nft_id = object::id(bot_nft);
+        assert!(
+            bot_nft_id == role.bot_nft_id,
+            ERR_NOT_AUTHORIZED
+        );
+
+        // Replace the skills array with the new one
+        role.skills = new_skills;
+    }
+
     /// Withdraw SUI using BotNFT ownership verification
     public entry fun withdraw_sui_with_nft(
         role: &mut Role,

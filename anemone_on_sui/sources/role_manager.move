@@ -40,7 +40,8 @@ module anemone::role_manager {
         inactive_epochs: u64, // Number of consecutive inactive epochs
         balance: Balance<SUI>,
         bot_address: address, // the authorized bot address
-        skills: vector<ID>
+        skills: vector<ID>,
+        app_id: String // Phala CVM app ID
     }
 
     /// Create a new Role
@@ -50,6 +51,7 @@ module anemone::role_manager {
         name: String,
         description: String,
         img_url: String,
+        app_id: String,
         coin: Coin<SUI>,
         ctx: &mut TxContext
     ) {
@@ -76,7 +78,8 @@ module anemone::role_manager {
             inactive_epochs: 0,
             balance: coin::into_balance(coin),
             bot_address: bot_address,
-            skills: vector::empty()
+            skills: vector::empty(),
+            app_id: app_id
         };
 
         transfer::share_object(role);
